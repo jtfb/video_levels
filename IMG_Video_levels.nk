@@ -1,0 +1,405 @@
+set cut_paste_input [stack 0]
+version 12.2 v9
+push $cut_paste_input
+Group {
+ name IMG_Video_levels
+ tile_color 0x55ff7fff
+ selected true
+ xpos 879
+ ypos -1402
+ addUserKnob {20 User}
+ addUserKnob {4 direction l Direction M {"Video to Full Levels" "Full to Video Levels" "" ""}}
+ direction "Full to Video Levels"
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0xddddddff
+  label "Full to Video"
+  note_font_size 42
+  xpos 419
+  ypos -276
+  bdwidth 256
+  bdheight 166
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0xddddddff
+  label "Video to Full"
+  note_font_size 42
+  xpos 687
+  ypos -276
+  bdwidth 256
+  bdheight 166
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 633
+  ypos -410
+ }
+ Dot {
+  name Dot1
+  xpos 667
+  ypos -329
+ }
+set N607b5c00 [stack 0]
+ Grade {
+  blackpoint 0.064
+  whitepoint 0.94
+  name Grade1
+  xpos 766
+  ypos -191
+ }
+push $N607b5c00
+ Grade {
+  blackpoint 0.064
+  whitepoint 0.94
+  reverse true
+  name Grade2
+  xpos 537
+  ypos -194
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name Switch__levels
+  xpos 623
+  ypos -77
+ }
+ Output {
+  name Output1
+  xpos 623
+  ypos 23
+ }
+ Group {
+  inputs 0
+  name MARZ_LinLogTool
+  xpos 1169
+  ypos -432
+  addUserKnob {20 User}
+  addUserKnob {4 Colorspace M {ACEScct "Alexa LogC" "Arri LogC4" S-Log3 L3G10 ""}}
+  Colorspace "Arri LogC4"
+  addUserKnob {4 Operation M {"Log 2 Lin" "Lin 2 Log" ""}}
+  Operation "Lin 2 Log"
+  addUserKnob {6 Bypass +STARTLINE}
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode10
+   tile_color 0x513d88ff
+   label "LIN LOG TOOL\n"
+   note_font_size 50
+   xpos -113
+   ypos -611
+   bdwidth 1576
+   bdheight 403
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode11
+   tile_color 0x68808eff
+   label "ACES CCT"
+   note_font_size 42
+   xpos -32
+   ypos -504
+   bdwidth 284
+   bdheight 192
+   z_order 1
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode12
+   tile_color 0x748e75ff
+   label S-Log3
+   note_font_size 42
+   xpos 848
+   ypos -493
+   bdwidth 284
+   bdheight 170
+   z_order 1
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode13
+   tile_color 0x388e8e00
+   label "ARRI v3"
+   note_font_size 42
+   xpos 200
+   ypos -497
+   bdwidth 260
+   bdheight 177
+   z_order 1
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode14
+   tile_color 0x8e6345ff
+   label "ARRI v4"
+   note_font_size 42
+   xpos 507
+   ypos -491
+   bdwidth 306
+   bdheight 165
+   z_order 1
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode15
+   tile_color 0x8e884aff
+   label L3g10
+   note_font_size 42
+   xpos 1197
+   ypos -493
+   bdwidth 246
+   bdheight 170
+   z_order 1
+  }
+  Input {
+   inputs 0
+   name Input1
+   xpos 620
+   ypos -753
+  }
+  Dot {
+   name Dot9
+   xpos 654
+   ypos -702
+  }
+  Dot {
+   name Dot7
+   xpos 654
+   ypos -558
+  }
+set N603af400 [stack 0]
+  Dot {
+   name Dot3
+   xpos 984
+   ypos -558
+  }
+set N603af000 [stack 0]
+  Dot {
+   name Dot10
+   xpos 1314
+   ypos -558
+  }
+set N603aec00 [stack 0]
+  Dot {
+   name Dot4
+   xpos 1472
+   ypos -558
+  }
+  Dot {
+   name Dot6
+   xpos 1472
+   ypos -47
+  }
+set N603ae400 [stack 0]
+push 0
+push $N603ae400
+push $N603aec00
+  Expression {
+   temp_name0 a
+   temp_expr0 0.224282
+   temp_name1 d
+   temp_expr1 155.975327
+   temp_name2 c
+   temp_expr2 0.01
+   temp_name3 f
+   temp_expr3 15.1927
+   expr0 "(r+c < 0) ?  r+c*f\n: a*log10(((r+c)*d)+1.0) "
+   expr1 "(g+c < 0) ?  g+c*f\n: a*log10(((g+c)*d)+1.0)\n"
+   expr2 "(b+c < 0) ?  g+c*f\n: a*log10(((b+c)*d)+1.0)\n "
+   name Expression21
+   label "L3G10\nLin2Log"
+   xpos 1344
+   ypos -454
+  }
+push $N603aec00
+  Expression {
+   temp_name0 a
+   temp_expr0 0.224282
+   temp_name1 d
+   temp_expr1 155.975327
+   temp_name2 c
+   temp_expr2 0.01
+   temp_name3 f
+   temp_expr3 15.1927
+   expr0 "(r < 0) ?  (r/f)-c\n: (pow(10,r/a)-1) / d\n-c"
+   expr1 "(g < 0) ?  (g/f)-c\n: (pow(10,g/a)-1) / d\n-c"
+   expr2 "(b < 0) ?  (b/f)-c\n: (pow(10,b/a)-1) / d\n-c"
+   name Expression22
+   label "L3G10\nLog2Lin"
+   xpos 1230
+   ypos -455
+  }
+  Switch {
+   inputs 2
+   which {{parent.Operation}}
+   name Switch5
+   xpos 1280
+   ypos -345
+  }
+push $N603af000
+  Expression {
+   expr0 "(r >= 0.0112500) ? (420 + log10((r + 0.01) / (0.18 + 0.01)) * 261.5) / 1023 : (r * (171.2102946929 - 95.0)/0.01125000 + 95.0) / 1023.0"
+   expr1 "(g >= 0.0112500) ? (420 + log10((g + 0.01) / (0.18 + 0.01)) * 261.5) / 1023 : (g* (171.2102946929 - 95.0)/0.01125000 + 95.0) / 1023.0"
+   expr2 "(b >= 0.0112500) ? (420 + log10((b + 0.01) / (0.18 + 0.01)) * 261.5) / 1023 : (b* (171.2102946929 - 95.0)/0.01125000 + 95.0) / 1023.0"
+   name Expression19
+   label "S-Log3\nLin2Log"
+   xpos 1060
+   ypos -405
+  }
+push $N603af000
+  Expression {
+   expr0 "(r >= 171.2102946929 / 1023.0) ? (pow(10, ((r * 1023.0 - 420.0) / 261.5))) * (0.18 + 0.01) - 0.01 : (r * 1023.0 - 95.0) * 0.01125000 / (171.2102946929 - 95.0)"
+   expr1 "(g >= 171.2102946929 / 1023.0) ? (pow(10, ((g * 1023.0 - 420.0) / 261.5))) * (0.18 + 0.01) - 0.01 : (g * 1023.0 - 95.0) * 0.01125000 / (171.2102946929 - 95.0)"
+   expr2 "(b >= 171.2102946929 / 1023.0) ? (pow(10, ((b * 1023.0 - 420.0) / 261.5))) * (0.18 + 0.01) - 0.01 : (b * 1023.0 - 95.0) * 0.01125000 / (171.2102946929 - 95.0)"
+   name Expression20
+   label "S-Log3\nlog2lin"
+   xpos 950
+   ypos -405
+  }
+  Switch {
+   inputs 2
+   which {{parent.Operation}}
+   name Switch4
+   xpos 950
+   ypos -345
+  }
+push $N603af400
+  Expression {
+   temp_name0 s
+   temp_expr0 (7*log(2)*pow(2,((7-14*(95/1023))/((1023-95)/1023))))/((pow(2,18)-16)/117.45)*((1023-95)/1023)
+   temp_name1 t
+   temp_expr1 (pow(2,(14*(-(95/1023)/((1023-95)/1023))+6))-64)/((pow(2,18)-16)/117.45)
+   expr0 "r<t?(r-t)/s:((((log10(((pow(2,18)-16)/117.45)*r+64)/log10(2))-6)/14)*((1023-95)/1023)) + (95/1023)"
+   expr1 "g<t?(g-t)/s:((((log10(((pow(2,18)-16)/117.45)*g+64)/log10(2))-6)/14)*((1023-95)/1023)) + (95/1023)"
+   expr2 "b<t?(b-t)/s:((((log10(((pow(2,18)-16)/117.45)*b+64)/log10(2))-6)/14)*((1023-95)/1023)) + (95/1023)"
+   name Expression14
+   label "ARRI LogC4\nLin2Log"
+   xpos 730
+   ypos -405
+  }
+push $N603af400
+  Expression {
+   temp_name0 s
+   temp_expr0 (7*log(2)*pow(2,((7-14*(95/1023))/((1023-95)/1023))))/((pow(2,18)-16)/117.45)*((1023-95)/1023)
+   temp_name1 t
+   temp_expr1 (pow(2,(14*(-(95/1023)/((1023-95)/1023))+6))-64)/((pow(2,18)-16)/117.45)
+   expr0 r<0?r*s+t:(pow(2,(14*(r-(95/1023))/((1023-95)/1023))+6)-64)/((pow(2,18)-16)/117.45)
+   expr1 g<0?g*s+t:(pow(2,(14*(g-(95/1023))/((1023-95)/1023))+6)-64)/((pow(2,18)-16)/117.45)
+   expr2 b<0?b*s+t:(pow(2,(14*(b-(95/1023))/((1023-95)/1023))+6)-64)/((pow(2,18)-16)/117.45)
+   name Expression13
+   label "ARRI LogC4\nLog2Lin"
+   xpos 620
+   ypos -405
+  }
+  Switch {
+   inputs 2
+   which {{parent.Operation}}
+   name Switch3
+   xpos 620
+   ypos -345
+  }
+push $N603af400
+  Dot {
+   name Dot2
+   xpos 434
+   ypos -558
+  }
+set N609a7800 [stack 0]
+  Expression {
+   expr0 "(r > 0.010591) ? 0.247190 * log10(5.555556 * r + 0.052272) + 0.385537: 5.367655 * r + 0.092809"
+   expr1 "(g > 0.010591) ? 0.247190 * log10(5.555556 * g + 0.052272) + 0.385537: 5.367655 * g + 0.092809"
+   expr2 "(b > 0.010591) ? 0.247190 * log10(5.555556 * b + 0.052272) + 0.385537: 5.367655 * b + 0.092809"
+   name Expression15
+   label "Alexa LogC\nLin2Log"
+   xpos 400
+   ypos -405
+  }
+push $N609a7800
+  Expression {
+   expr0 "(r> 0.149658) ? (pow(10, (r - 0.385537) / 0.247190) - 0.052272) / 5.555556: (r - 0.092809) / 5.367655"
+   expr1 "(g> 0.149658) ? (pow(10, (g - 0.385537) / 0.247190) - 0.052272) / 5.555556: (g - 0.092809) / 5.367655"
+   expr2 "(b> 0.149658) ? (pow(10, (b - 0.385537) / 0.247190) - 0.052272) / 5.555556: (b - 0.092809) / 5.367655"
+   name Expression16
+   label "Alexa LogC\nLog2Lin"
+   xpos 290
+   ypos -405
+  }
+  Switch {
+   inputs 2
+   which {{parent.Operation}}
+   name Switch2
+   xpos 290
+   ypos -345
+  }
+push $N609a7800
+  Dot {
+   name Dot1
+   xpos -6
+   ypos -558
+  }
+set N609a6800 [stack 0]
+  Expression {
+   expr0 "(r > 0.0078125) ? ((log10(r)/ 0.301030) + 9.72)/ 17.52 : 10.540237741654 * r + 0.0729055341958355\n\n\n\n\n\n"
+   expr1 "(g > 0.0078125) ? ((log10(g)/ 0.301030) + 9.72)/ 17.52 : 10.540237741654 *g + 0.0729055341958355\n\n\n\n\n\n"
+   expr2 "(b > 0.0078125) ? ((log10(b)/ 0.301030) + 9.72)/ 17.52 : 10.540237741654 * b + 0.0729055341958355\n\n\n\n\n\n"
+   name Expression17
+   label "ACEScct\nLin2Log"
+   xpos 70
+   ypos -405
+  }
+push $N609a6800
+  Expression {
+   expr0 "( r > 0.155251141552511 ) ? pow (2, (r * 17.52 - 9.72)) : (r - 0.0729055341958355) / 10.5402377416545\n"
+   expr1 "( g > 0.155251141552511 ) ? pow (2, (g * 17.52 - 9.72)) : (g - 0.0729055341958355) / 10.5402377416545\n"
+   expr2 "(b > 0.155251141552511 ) ? pow (2, (b * 17.52 - 9.72)) : (b - 0.0729055341958355) / 10.5402377416545\n"
+   name Expression18
+   label "ACEScct\nLog2Lin"
+   xpos -40
+   ypos -405
+  }
+  Switch {
+   inputs 2
+   which {{parent.Operation}}
+   name Switch1
+   xpos 70
+   ypos -321
+  }
+  Switch {
+   inputs 5
+   which {{parent.Colorspace}}
+   name Switch6
+   selected true
+   xpos 620
+   ypos -127
+  }
+  Switch {
+   inputs 2
+   which {{parent.Bypass}}
+   name Switch7
+   xpos 620
+   ypos -50
+  }
+  Dot {
+   name Dot5
+   xpos 654
+   ypos 18
+  }
+  Output {
+   name Output1
+   xpos 620
+   ypos 86
+  }
+  Viewer {
+   inputs 3
+   frame_range 1-77
+   name Viewer1
+   xpos 1548
+   ypos -220
+  }
+ end_group
+end_group
